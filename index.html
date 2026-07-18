@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saurabh Chandra Sati | Digital Creator & Influencer</title>
+    <meta name="description" content="Portfolio of Saurabh Chandra Sati, passionate digital creator and influencer.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            primary: '#4F46E5',
+                            accent: '#7C3AED',
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            teal: '#14B8A6',
+                            light: '#F8FAFC',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        body {
+            background-color: #fcfcfc;
+            color: #0f172a;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Lenis Smooth Scroll */
+        html.lenis, html.lenis body {
+            height: auto;
+            width: 100vw;
+        }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        /* Aurora Background Animation */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: moveBlob 20s infinite alternate ease-in-out;
+            mix-blend-mode: multiply;
+        }
+
+        .blob-1 { background: rgba(79, 70, 229, 0.4); width: 60vw; height: 60vw; top: -10%; left: -10%; animation-delay: 0s; }
+        .blob-2 { background: rgba(124, 58, 237, 0.3); width: 50vw; height: 50vw; top: 40%; right: -10%; animation-delay: -5s; }
+        .blob-3 { background: rgba(20, 184, 166, 0.3); width: 55vw; height: 55vw; bottom: -20%; left: 20%; animation-delay: -10s; }
+
+        @keyframes moveBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(10vw, -10vh) scale(1.1); }
+            66% { transform: translate(-10vw, 15vh) scale(0.9); }
+            100% { transform: translate(5vw, 5vh) scale(1.05); }
+        }
+
+        /* WebGL Canvas */
+        #webgl-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none; /* Let clicks pass through to background */
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED, #14B8A6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .loader-bar {
+            width: 200px;
+            height: 2px;
+            background: #e2e8f0;
+            margin-top: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .loader-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4F46E5, #14B8A6);
+            transition: width 0.2s ease;
+        }
+
+        /* Magnetic Button */
+        .magnetic-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Chatbot */
+        #chatbot-window {
+            transform-origin: bottom right;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .chat-message {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeUp 0.3s forwards;
+        }
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-white">
+
+    <!-- Loader -->
+    <div id="loader">
+        <h1 class="font-display text-3xl font-bold tracking-tight text-gray-900">Saurabh</h1>
+        <div class="loader-bar">
+            <div class="loader-progress" id="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Aurora Background -->
+    <div class="aurora-bg">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="glass rounded-2xl px-6 py-4 flex justify-between items-center">
+                <a href="#" class="font-display text-xl font-bold tracking-tight text-gray-900">S.C.S</a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">About</a>
+                    <a href="#journey" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Journey</a>
+                    <a href="#social" class="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors">Social</a>
+                    <a href="#contact" class="px-5 py-2.5 rounded-full bg-gray-900 text-white text-sm font-medium hover:bg-brand-primary transition-colors magnetic-btn" data-strength="20">
+                        <span>Let's Talk</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-gray-900" id="mobile-menu-btn">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white/95 backdrop-blur-md z-40 flex flex-col justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <button id="close-menu-btn" class="absolute top-8 right-8 text-gray-900"><i data-lucide="x" class="w-8 h-8"></i></button>
+        <a href="#about" class="text-2xl font-display font-medium my-4 mobile-link">About</a>
+        <a href="#journey" class="text-2xl font-display font-medium my-4 mobile-link">Journey</a>
+        <a href="#social" class="text-2xl font-display font-medium my-4 mobile-link">Social</a>
+        <a href="#contact" class="text-2xl font-display font-medium my-4 mobile-link text-brand-primary">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+            <!-- Three.js Canvas Container -->
+            <canvas id="webgl-canvas"></canvas>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full hero-content text-center lg:text-left flex flex-col lg:flex-row items-center relative z-10 pointer-events-none">
+                
+                <div class="lg:w-1/2 lg:pr-12 pointer-events-auto">
+                    <p class="text-brand-primary font-medium tracking-wide uppercase text-sm mb-4 gs-reveal">Portfolio</p>
+                    <h1 class="font-display text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] text-gray-900 mb-6 gs-reveal">
+                        Hello, I'm <br>
+                        <span class="text-gradient">Saurabh Chandra Sati</span>
+                    </h1>
+                    <h2 class="text-xl md:text-2xl text-gray-600 font-light mb-6 gs-reveal">
+                        Influencer • Digital Creator • Content Enthusiast
+                    </h2>
+                    <p class="text-gray-500 max-w-lg mx-auto lg:mx-0 mb-10 text-lg gs-reveal">
+                        A passionate digital creator enjoying connecting with people through engaging content and meaningful interactions. Building a positive online community, one post at a time.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 gs-reveal">
+                        <a href="https://instagram.com/s.a.u.r.a.b.h" target="_blank" rel="noopener noreferrer" class="magnetic-btn w-full sm:w-auto px-8 py-4 rounded-full bg-brand-primary text-white font-medium hover:bg-brand-accent transition-all shadow-[0_8px_30px_rgb(79,70,229,0.3)] flex items-center justify-center gap-2" data-strength="40">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                            Visit Instagram
+                        </a>
+                        <a href="#contact" class="magnetic-btn w-full sm:w-auto px-8 py-4 rounded-full bg-white text-gray-900 border border-gray-200 font-medium hover:bg-gray-50 transition-all flex items-center justify-center gap-2" data-strength="20">
+                            Contact Me
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Spacer for 3D object on desktop -->
+                <div class="lg:w-1/2 h-[50vh] lg:h-auto mt-12 lg:mt-0 pointer-events-auto" id="hero-interactive-zone">
+                    <!-- Invisible area to capture mouse movements specifically for the 3D object if needed -->
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gs-reveal">
+                <span class="text-xs text-gray-400 mb-2 uppercase tracking-widest font-medium">Scroll</span>
+                <div class="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center p-1">
+                    <div class="w-1 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 relative z-10">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="glass-card rounded-3xl p-8 lg:p-12 border border-white/60">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <!-- Image Column -->
+                        <div class="relative group gs-reveal-up">
+                            <div class="absolute -inset-2 bg-gradient-to-r from-brand-primary to-brand-teal rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
+                            <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-gray-100">
+                                <!-- Minimal abstract placeholder if actual photo isn't available, styled elegantly -->
+                                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" alt="Abstract Representation" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale-[20%]">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <p class="font-display font-medium text-lg">Saurabh C. Sati</p>
+                                    <p class="text-sm opacity-80">Digital Creator</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content Column -->
+                        <div class="space-y-8">
+                            <div class="gs-reveal-up">
+                                <h3 class="text-brand-primary font-medium tracking-wide uppercase text-sm mb-2">About Me</h3>
+                                <h2 class="font-display text-4xl font-bold text-gray-900 mb-6">Crafting Digital <br>Experiences</h2>
+                                <p class="text-gray-600 leading-relaxed text-lg mb-4">
+                                    I believe in the power of authenticity. As a digital creator, my goal isn't just to produce content, but to spark conversations, inspire actions, and build a community rooted in positivity.
+                                </p>
+                                <p class="text-gray-600 leading-relaxed text-lg">
+                                    My platform reflects a blend of creativity, daily lifestyle, and a deep-seated commitment to interacting meaningfully with my audience. Every post is a step towards a more connected digital space.
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-200/60 gs-reveal-up">
+                                <div>
+                                    <p class="text-4xl font-display font-bold text-gray-900 mb-1 counter" data-target="50">0</p>
+                                    <p class="text-sm text-gray-500 font-medium">K+ Followers</p>
+                                </div>
+                                <div>
+                                    <p class="text-4xl font-display font-bold text-gray-900 mb-1 counter" data-target="100">0</p>
+                                    <p class="text-sm text-gray-500 font-medium">% Authentic</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Section -->
+        <section id="journey" class="py-24 relative z-10">
+            <div class="max-w-4xl mx-auto px-6 lg:px-8">
+                <div class="text-center mb-16 gs-reveal-up">
+                    <h3 class="text-brand-primary font-medium tracking-wide uppercase text-sm mb-2">The Path</h3>
+                    <h2 class="font-display text-4xl font-bold text-gray-900">My Journey</h2>
+                </div>
+
+                <div class="relative border-l border-gray-200 ml-4 md:ml-0 md:pl-0 space-y-12">
+                    <!-- Timeline Item 1 -->
+                    <div class="relative pl-8 md:pl-0 gs-reveal-up">
+                        <div class="md:grid md:grid-cols-5 md:gap-8 items-start">
+                            <div class="hidden md:block col-span-1 text-right pt-1">
+                                <span class="text-sm font-bold text-brand-primary">Present</span>
+                            </div>
+                            <div class="absolute left-[-5px] md:left-[20%] md:-ml-[5px] top-2 w-2.5 h-2.5 rounded-full bg-brand-primary ring-4 ring-white"></div>
+                            <div class="md:col-span-4 md:pl-10 glass-card p-6 rounded-2xl hover:-translate-y-1 transition-transform duration-300">
+                                <span class="md:hidden text-xs font-bold text-brand-primary mb-2 block">Present</span>
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Growing the Community</h4>
+                                <p class="text-gray-600">Focusing on high-quality engagement, collaborating with modern brands, and expanding the digital footprint across platforms with a core focus on Instagram.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2 -->
+                    <div class="relative pl-8 md:pl-0 gs-reveal-up">
+                        <div class="md:grid md:grid-cols-5 md:gap-8 items-start">
+                            <div class="hidden md:block col-span-1 text-right pt-1">
+                                <span class="text-sm font-medium text-gray-500">2023</span>
+                            </div>
+                            <div class="absolute left-[-5px] md:left-[20%] md:-ml-[5px] top-2 w-2.5 h-2.5 rounded-full bg-gray-300 ring-4 ring-white"></div>
+                            <div class="md:col-span-4 md:pl-10 glass p-6 rounded-2xl">
+                                <span class="md:hidden text-xs font-medium text-gray-500 mb-2 block">2023</span>
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">Content Diversification</h4>
+                                <p class="text-gray-600">Transitioned into broader lifestyle content, establishing a unique voice and aesthetic that resonates with a premium audience.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Item 3 -->
+                    <div class="relative pl-8 md:pl-0 gs-reveal-up">
+                        <div class="md:grid md:grid-cols-5 md:gap-8 items-start">
+                            <div class="hidden md:block col-span-1 text-right pt-1">
+                                <span class="text-sm font-medium text-gray-500">2021</span>
+                            </div>
+                            <div class="absolute left-[-5px] md:left-[20%] md:-ml-[5px] top-2 w-2.5 h-2.5 rounded-full bg-gray-300 ring-4 ring-white"></div>
+                            <div class="md:col-span-4 md:pl-10 glass p-6 rounded-2xl">
+                                <span class="md:hidden text-xs font-medium text-gray-500 mb-2 block">2021</span>
+                                <h4 class="text-xl font-bold text-gray-900 mb-2">The Beginning</h4>
+                                <p class="text-gray-600">Started the digital journey with a passion for storytelling and visual aesthetics, laying the foundation for an authentic online presence.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social & Contact Section -->
+        <section id="social" class="py-24 relative z-10">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Instagram Card -->
+                    <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center justify-center relative overflow-hidden group gs-reveal-up">
+                        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 z-0"></div>
+                        <div class="relative z-10 w-full flex flex-col items-center">
+                            <div class="w-20 h-20 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 rounded-full flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 transition duration-500">
+                                <i data-lucide="instagram" class="w-10 h-10 text-white"></i>
+                            </div>
+                            <h3 class="text-2xl font-display font-bold text-gray-900 mb-2">Connect on Instagram</h3>
+                            <p class="text-brand-accent font-medium mb-8 text-lg">@s.a.u.r.a.b.h</p>
+                            
+                            <!-- Hidden textarea for copying (safest cross-browser) -->
+                            <textarea id="copy-target" class="opacity-0 absolute -z-10" aria-hidden="true"></textarea>
+                            
+                            <button id="ig-btn" class="magnetic-btn px-8 py-4 w-full max-w-sm rounded-full bg-gray-900 text-white font-medium hover:bg-black transition-all shadow-xl flex items-center justify-center gap-2 group-hover:shadow-[0_10px_40px_rgba(0,0,0,0.2)]" data-strength="30">
+                                Visit Profile
+                                <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Direct Contact Card -->
+                    <div id="contact" class="glass-card rounded-3xl p-10 flex flex-col justify-center gs-reveal-up">
+                        <h3 class="text-2xl font-display font-bold text-gray-900 mb-2">Direct Inquiry</h3>
+                        <p class="text-gray-500 mb-10">For collaborations, brand partnerships, or general inquiries.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-center p-4 bg-white/50 rounded-2xl border border-gray-100 hover:border-brand-primary/30 transition-colors">
+                                <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center mr-4 shrink-0">
+                                    <i data-lucide="phone"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Phone</p>
+                                    <p class="text-gray-900 font-medium text-lg tracking-wide">+91 8126969260</p>
+                                </div>
+                                <button id="copy-phone" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-600 tooltip" title="Copy Number">
+                                    <i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center p-4 bg-white/50 rounded-2xl border border-gray-100 hover:border-brand-primary/30 transition-colors">
+                                <div class="w-12 h-12 bg-purple-50 text-brand-purple rounded-full flex items-center justify-center mr-4 shrink-0">
+                                    <i data-lucide="mail"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <p class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Email</p>
+                                    <p class="text-gray-900 font-medium text-lg">DM on Instagram</p>
+                                </div>
+                                <button onclick="document.getElementById('ig-btn').click()" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-600">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-gray-200/50 glass mt-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0 text-center md:text-left">
+                <p class="font-display font-bold text-xl text-gray-900">Saurabh C. Sati</p>
+                <p class="text-sm text-gray-500 mt-1">Designed with precision and elegance.</p>
+            </div>
+            
+            <div class="flex space-x-6 items-center">
+                <span class="text-sm text-gray-500">+91 8126969260</span>
+                <div class="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <button onclick="document.getElementById('ig-btn').click()" class="text-gray-400 hover:text-brand-primary transition-colors">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                </button>
+                <button id="back-to-top" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-600 ml-4">
+                    <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Chatbot Widget -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Chat Window -->
+        <div id="chatbot-window" class="glass-card border border-white shadow-2xl rounded-2xl w-80 mb-4 overflow-hidden scale-0 opacity-0 pointer-events-none">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-brand-primary to-brand-accent p-4 text-white flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="font-medium">AI Assistant</span>
+                </div>
+                <button id="close-chat" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            
+            <!-- Messages Area -->
+            <div id="chat-messages" class="p-4 h-64 overflow-y-auto flex flex-col gap-3 bg-white/50">
+                <div class="chat-message bg-gray-100 text-gray-800 p-3 rounded-2xl rounded-tl-sm text-sm self-start max-w-[85%]">
+                    Hi there! I'm Saurabh's AI assistant. What would you like to know?
+                </div>
+            </div>
+
+            <!-- Options Area -->
+            <div class="p-3 bg-white border-t border-gray-100 flex flex-wrap gap-2" id="chat-options">
+                <button class="chat-opt bg-gray-50 border border-gray-200 hover:border-brand-primary hover:text-brand-primary text-xs text-gray-600 px-3 py-1.5 rounded-full transition-colors text-left">Who is Saurabh?</button>
+                <button class="chat-opt bg-gray-50 border border-gray-200 hover:border-brand-primary hover:text-brand-primary text-xs text-gray-600 px-3 py-1.5 rounded-full transition-colors text-left">How to contact?</button>
+                <button class="chat-opt bg-gray-50 border border-gray-200 hover:border-brand-primary hover:text-brand-primary text-xs text-gray-600 px-3 py-1.5 rounded-full transition-colors text-left">Content type?</button>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button id="chat-toggle" class="w-14 h-14 rounded-full bg-brand-primary text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center">
+            <i data-lucide="message-square" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis for Smooth Scrolling -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+    <!-- Three.js for Hero Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // --------------------------------------------------------
+        // 1. Setup & Preloader
+        // --------------------------------------------------------
+        window.scrollTo(0, 0);
+        
+        const initApp = () => {
+            // Animate Loader
+            gsap.to('#loader-progress', {
+                width: '100%',
+                duration: 1.5,
+                ease: 'power3.inOut',
+                onComplete: () => {
+                    gsap.to('#loader', {
+                        yPercent: -100,
+                        duration: 0.8,
+                        ease: 'expo.inOut',
+                        onComplete: () => {
+                            document.getElementById('loader').style.display = 'none';
+                            initHeroAnimations();
+                        }
+                    });
+                }
+            });
+        };
+
+        // --------------------------------------------------------
+        // 2. Smooth Scrolling (Lenis)
+        // --------------------------------------------------------
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Integrate GSAP ScrollTrigger with Lenis
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // --------------------------------------------------------
+        // 3. Three.js Premium Interactive Background
+        // --------------------------------------------------------
+        const initThreeJS = () => {
+            const canvas = document.querySelector('#webgl-canvas');
+            const scene = new THREE.Scene();
+            
+            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+            // Position camera slightly to the right to accommodate text on left
+            camera.position.set(window.innerWidth > 1024 ? -2 : 0, 0, 8);
+
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                alpha: true, 
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.2;
+
+            // Premium Glass/Crystal Material
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0.1,
+                roughness: 0.05,
+                transmission: 0.9, // glass effect
+                ior: 1.5,
+                thickness: 0.5,
+                clearcoat: 1.0,
+                clearcoatRoughness: 0.1,
+            });
+
+            // Complex organic geometry (Icosahedron high detail)
+            const geometry = new THREE.IcosahedronGeometry(2, 4);
+            // Store original vertices for morphing
+            const positionAttribute = geometry.getAttribute('position');
+            const originalPositions = [];
+            for (let i = 0; i < positionAttribute.count; i++) {
+                originalPositions.push(
+                    new THREE.Vector3().fromBufferAttribute(positionAttribute, i)
+                );
+            }
+
+            const mesh = new THREE.Mesh(geometry, material);
+            // Move mesh to the right on desktop, center on mobile
+            if (window.innerWidth > 1024) {
+                mesh.position.x = 2;
+            }
+            scene.add(mesh);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+
+            const dirLight1 = new THREE.DirectionalLight(0x4F46E5, 2); // Primary Brand Color
+            dirLight1.position.set(5, 5, 5);
+            scene.add(dirLight1);
+
+            const dirLight2 = new THREE.DirectionalLight(0x14B8A6, 1.5); // Teal accent
+            dirLight2.position.set(-5, -5, 2);
+            scene.add(dirLight2);
+
+            // Interaction state
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            // Mouse / Touch events
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX) * 0.001;
+                mouseY = (event.clientY - windowHalfY) * 0.001;
+            });
+            
+            document.addEventListener('touchmove', (event) => {
+                if(event.touches.length > 0) {
+                    mouseX = (event.touches[0].clientX - windowHalfX) * 0.002;
+                    mouseY = (event.touches[0].clientY - windowHalfY) * 0.002;
+                }
+            }, {passive: true});
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            const tick = () => {
+                const elapsedTime = clock.getElapsedTime();
+
+                // Smooth mouse follow
+                targetX = mouseX * 0.5;
+                targetY = mouseY * 0.5;
+                mesh.rotation.y += 0.05 * (targetX - mesh.rotation.y);
+                mesh.rotation.x += 0.05 * (targetY - mesh.rotation.x);
+
+                // Idle organic rotation
+                mesh.rotation.z = elapsedTime * 0.1;
+
+                // Organic Vertex Morphing (Blob effect)
+                const positions = geometry.attributes.position;
+                for (let i = 0; i < positions.count; i++) {
+                    const original = originalPositions[i];
+                    // Create wave patterns based on vertex position and time
+                    const noise = Math.sin(original.x * 2 + elapsedTime * 1.5) * Math.cos(original.y * 2 + elapsedTime * 1.5) * Math.sin(original.z * 2 + elapsedTime * 1.5);
+                    
+                    const displacement = 1 + noise * 0.15; // Amplitude of morph
+
+                    positions.setXYZ(i, 
+                        original.x * displacement, 
+                        original.y * displacement, 
+                        original.z * displacement
+                    );
+                }
+                positions.needsUpdate = true;
+                geometry.computeVertexNormals(); // Recalculate light reflections
+
+                renderer.render(scene, camera);
+                window.requestAnimationFrame(tick);
+            };
+
+            tick();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                
+                // Adjust position based on breakpoint
+                if (window.innerWidth > 1024) {
+                    camera.position.x = -2;
+                    mesh.position.x = 2;
+                } else {
+                    camera.position.x = 0;
+                    mesh.position.x = 0;
+                }
+
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // --------------------------------------------------------
+        // 4. GSAP Animations & Interactions
+        // --------------------------------------------------------
+        const initHeroAnimations = () => {
+            const tl = gsap.timeline();
+            tl.fromTo('.gs-reveal', 
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: 'power3.out' }
+            );
+
+            // Animate other sections on scroll
+            gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
+                gsap.fromTo(elem,
+                    { y: 50, opacity: 0 },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    }
+                );
+            });
+
+            // Counters Animation
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                ScrollTrigger.create({
+                    trigger: counter,
+                    start: 'top 90%',
+                    once: true,
+                    onEnter: () => {
+                        let current = 0;
+                        const increment = target / 50; // speed
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current < target) {
+                                counter.innerText = Math.ceil(current);
+                                requestAnimationFrame(updateCounter);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCounter();
+                    }
+                });
+            });
+        };
+
+        // Magnetic Buttons Logic
+        const initMagneticButtons = () => {
+            const buttons = document.querySelectorAll('.magnetic-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    
+                    const strength = this.dataset.strength || 20;
+                    
+                    gsap.to(this, {
+                        x: x / rect.width * strength,
+                        y: y / rect.height * strength,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    gsap.to(this, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.7,
+                        ease: 'elastic.out(1, 0.3)'
+                    });
+                });
+            });
+        };
+
+        // --------------------------------------------------------
+        // 5. UI Utilities (Navbar, Copy, Mobile Menu)
+        // --------------------------------------------------------
+        
+        // Navbar blur on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-white/30', 'backdrop-blur-md', 'shadow-sm');
+                navbar.firstElementChild.firstElementChild.classList.remove('glass'); // remove double glass
+                navbar.firstElementChild.firstElementChild.classList.add('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-white/30', 'backdrop-blur-md', 'shadow-sm');
+                navbar.firstElementChild.firstElementChild.classList.add('glass');
+                navbar.firstElementChild.firstElementChild.classList.remove('bg-transparent');
+            }
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        const toggleMenu = (show) => {
+            if (show) {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                gsap.fromTo(mobileLinks, 
+                    {y: 20, opacity: 0}, 
+                    {y: 0, opacity: 1, duration: 0.4, stagger: 0.1, delay: 0.1}
+                );
+            } else {
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            }
+        };
+
+        mobileMenuBtn.addEventListener('click', () => toggleMenu(true));
+        closeMenuBtn.addEventListener('click', () => toggleMenu(false));
+        mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+        // Copy Phone Logic
+        const copyBtn = document.getElementById('copy-phone');
+        const copyIcon = document.getElementById('copy-icon');
+        const copyTarget = document.getElementById('copy-target');
+
+        copyBtn.addEventListener('click', () => {
+            const phoneNumber = '+918126969260';
+            
+            // Fallback approach for iframe environments
+            copyTarget.value = phoneNumber;
+            copyTarget.select();
+            document.execCommand('copy');
+            
+            // Visual feedback
+            copyBtn.classList.replace('bg-gray-100', 'bg-green-100');
+            copyBtn.classList.replace('text-gray-600', 'text-green-600');
+            
+            // Update icon (using innerHTML since lucide replaces the element)
+            copyBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+            lucide.createIcons();
+
+            setTimeout(() => {
+                copyBtn.classList.replace('bg-green-100', 'bg-gray-100');
+                copyBtn.classList.replace('text-green-600', 'text-gray-600');
+                copyBtn.innerHTML = '<i data-lucide="copy" class="w-4 h-4" id="copy-icon"></i>';
+                lucide.createIcons();
+            }, 2000);
+        });
+
+        // Instagram Navigation Function
+        document.getElementById('ig-btn').addEventListener('click', () => {
+            window.open('https://instagram.com/s.a.u.r.a.b.h', '_blank');
+        });
+
+        // Back to top
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --------------------------------------------------------
+        // 6. Chatbot Logic
+        // --------------------------------------------------------
+        const chatToggle = document.getElementById('chat-toggle');
+        const closeChat = document.getElementById('close-chat');
+        const chatWindow = document.getElementById('chatbot-window');
+        const chatMessages = document.getElementById('chat-messages');
+        const chatOptions = document.querySelectorAll('.chat-opt');
+
+        const faqs = {
+            "Who is Saurabh?": "Saurabh Chandra Sati is a passionate digital creator and influencer. His focus is on building a positive online community through engaging lifestyle content.",
+            "How to contact?": "The best way to reach Saurabh is via Direct Message on Instagram (@s.a.u.r.a.b.h) or by calling +91 8126969260.",
+            "Content type?": "He creates authentic digital content, lifestyle sharing, and brand collaborations aimed at meaningful audience interaction."
+        };
+
+        const toggleChat = (show) => {
+            if (show) {
+                chatWindow.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
+                gsap.fromTo(chatWindow, {scale: 0.8, opacity: 0}, {scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(1.2)'});
+            } else {
+                gsap.to(chatWindow, {
+                    scale: 0.8, opacity: 0, duration: 0.3, onComplete: () => {
+                        chatWindow.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
+                    }
+                });
+            }
+        };
+
+        chatToggle.addEventListener('click', () => toggleChat(true));
+        closeChat.addEventListener('click', () => toggleChat(false));
+
+        const appendMessage = (text, isUser = false) => {
+            const div = document.createElement('div');
+            div.className = `chat-message p-3 rounded-2xl text-sm max-w-[85%] ${
+                isUser 
+                ? 'bg-brand-primary text-white self-end rounded-tr-sm' 
+                : 'bg-gray-100 text-gray-800 self-start rounded-tl-sm'
+            }`;
+            div.textContent = text;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const showTyping = () => {
+            const div = document.createElement('div');
+            div.id = 'typing-indicator';
+            div.className = 'chat-message bg-gray-100 text-gray-800 p-3 rounded-2xl rounded-tl-sm self-start flex gap-1 items-center w-12 h-10';
+            div.innerHTML = '<div class="w-1.5 h-1.5 bg-gray-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-gray-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-gray-400 rounded-full typing-dot"></div>';
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const removeTyping = () => {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        };
+
+        chatOptions.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.textContent;
+                appendMessage(question, true);
+                
+                // Disable options temporarily
+                chatOptions.forEach(b => b.classList.add('opacity-50', 'pointer-events-none'));
+                
+                showTyping();
+                
+                setTimeout(() => {
+                    removeTyping();
+                    appendMessage(faqs[question]);
+                    // Re-enable options
+                    chatOptions.forEach(b => b.classList.remove('opacity-50', 'pointer-events-none'));
+                }, 1000);
+            });
+        });
+
+        // --------------------------------------------------------
+        // Boot up
+        // --------------------------------------------------------
+        window.addEventListener('load', () => {
+            initThreeJS();
+            initApp();
+            initMagneticButtons();
+        });
+
+    </script>
+</body>
+</html>
